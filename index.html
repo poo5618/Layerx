@@ -6,12 +6,43 @@
     <title>LayerX 3D Printing</title>
     <!-- Links to your CSS file -->
     <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for real icons in the footer -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Override logo size to make it bigger */
+        .site-header { padding: 10px 20px; }
+        .logo-container img {
+            height: 75px !important; 
+            max-width: 250px !important;
+            object-fit: contain;
+        }
+        
+        /* Styles for the image placeholders */
+        .img-fallback {
+            display: flex; align-items: center; justify-content: center;
+            background: #e2e8f0; color: #94a3b8; font-size: 14px; text-align: center;
+            width: 100%; height: 180px; object-fit: cover;
+        }
+        .gallery-img { 
+            width: 100%; height: 140px; border-radius: 8px; object-fit: cover; background: #e2e8f0; 
+        }
+
+        /* Override Footer Alignment to Left */
+        .site-footer {
+            text-align: left !important;
+            padding: 40px 30px !important; /* slightly more padding so it isn't touching the screen edge */
+        }
+        .footer-icons {
+            justify-content: flex-start !important;
+        }
+    </style>
 </head>
 <body>
 
     <header class="site-header">
         <div class="logo-container">
-            <!-- Upload logo.png to your images folder -->
+            <!-- Your Logo -->
             <img src="images/logo.png" alt="LayerX Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<h2 style=\'color:var(--dark-slate)\'>LAYER<span style=\'color:var(--primary-orange)\'>X</span></h2>';">
         </div>
         <nav class="nav-links">
@@ -22,6 +53,7 @@
     </header>
 
     <div class="service-banner">
+        <!-- Edit your locations here inside the span tags! -->
         📍 Serving <span>Govandi, Dombivli, Panvel</span> & Harbour Line Stations
     </div>
 
@@ -34,7 +66,8 @@
 
             <div class="home-split">
                 <div class="action-card" onclick="showPage('custom')">
-                    <div class="card-img-placeholder">[ Photo of Mechanical Part ]</div>
+                    <!-- Upload a photo named custom.jpg to your images folder -->
+                    <img src="images/custom.jpg" alt="Custom Prints" class="img-fallback" onerror="this.outerHTML='<div class=\\'img-fallback\\'>[ Upload images/custom.jpg ]</div>'">
                     <div class="card-content">
                         <h3>Custom 3D Prints</h3>
                         <p>Prototypes, replacement parts, and fabrication.</p>
@@ -42,7 +75,8 @@
                 </div>
 
                 <div class="action-card" onclick="showPage('catalog')">
-                    <div class="card-img-placeholder">[ Photo of Cool Gifts ]</div>
+                    <!-- Upload a photo named gifts.jpg to your images folder -->
+                    <img src="images/gifts.jpg" alt="Gift Catalog" class="img-fallback" onerror="this.outerHTML='<div class=\\'img-fallback\\'>[ Upload images/gifts.jpg ]</div>'">
                     <div class="card-content">
                         <h3>Gift Catalog</h3>
                         <p>Browse our ready-to-print toys, decor, and personal gifts.</p>
@@ -62,17 +96,11 @@
                 <br>
                 <p><strong>Available Colors:</strong></p>
                 <div class="swatch-container">
-                    <!-- Red -->
                     <div class="swatch" style="background-color: #dc2626;" title="Red"></div>
-                    <!-- Black -->
                     <div class="swatch" style="background-color: #000000;" title="Black"></div>
-                    <!-- Dark Grey -->
                     <div class="swatch" style="background-color: #4b5563;" title="Dark Grey"></div>
-                    <!-- Light Grey -->
                     <div class="swatch" style="background-color: #cbd5e1;" title="Light Grey"></div>
-                    <!-- Blue -->
                     <div class="swatch" style="background-color: #2563eb;" title="Blue"></div>
-                    <!-- White -->
                     <div class="swatch" style="background-color: #ffffff;" title="White"></div>
                 </div>
             </div>
@@ -86,15 +114,15 @@
 
             <h3>Past Customer Projects</h3>
             <div class="gallery-grid">
-                <!-- Replace with actual images -->
-                <div class="gallery-placeholder"></div>
-                <div class="gallery-placeholder"></div>
-                <div class="gallery-placeholder"></div>
-                <div class="gallery-placeholder"></div>
+                <!-- Upload photos named print1.jpg, print2.jpg, etc. to your images folder -->
+                <img src="images/print1.jpg" class="gallery-img" alt="Project 1" onerror="this.outerHTML='<div class=\\'gallery-img img-fallback\\'>[ Upload print1.jpg ]</div>'">
+                <img src="images/print2.jpg" class="gallery-img" alt="Project 2" onerror="this.outerHTML='<div class=\\'gallery-img img-fallback\\'>[ Upload print2.jpg ]</div>'">
+                <img src="images/print3.jpg" class="gallery-img" alt="Project 3" onerror="this.outerHTML='<div class=\\'gallery-img img-fallback\\'>[ Upload print3.jpg ]</div>'">
+                <img src="images/print4.jpg" class="gallery-img" alt="Project 4" onerror="this.outerHTML='<div class=\\'gallery-img img-fallback\\'>[ Upload print4.jpg ]</div>'">
             </div>
         </div>
 
-        <!-- PAGE 3: CATALOG (AUTO-GENERATED BY JSON) -->
+        <!-- PAGE 3: CATALOG -->
         <div id="catalog" class="page-section">
             <h1 class="section-title">Gift & Product Catalog</h1>
             
@@ -105,7 +133,6 @@
                 <button class="cat-btn" onclick="filterCatalog('toys')">Toys & Props</button>
             </div>
 
-            <!-- Products will be injected here automatically -->
             <div class="product-grid" id="json-product-grid">
                 <p>Loading catalog...</p>
             </div>
@@ -116,10 +143,10 @@
     <!-- GLOBAL FOOTER -->
     <footer class="site-footer">
         <div class="footer-icons">
-            <a href="mailto:acc.thecraftedstone@gmail.com">✉️</a>
-            <a href="https://instagram.com/_layerx_">📸</a>
-            <a href="https://wa.me/919167268299">💬</a>
-            <a href="tel:+919167268299">📞</a>
+            <a href="mailto:acc.thecraftedstone@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+            <a href="https://instagram.com/_layerx_"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://wa.me/919167268299"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="tel:+919167268299"><i class="fa-solid fa-phone"></i></a>
         </div>
         <div class="footer-details">
             <p>Email: <span>acc.thecraftedstone@gmail.com</span></p>
@@ -130,7 +157,6 @@
 
     <!-- NAVIGATION AND JSON AUTOMATION SCRIPT -->
     <script>
-        // Page Navigation
         function showPage(pageId) {
             document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
@@ -139,17 +165,14 @@
             event.currentTarget.classList.add('active');
         }
 
-        // Global variable to hold catalog data
         let catalogData = [];
 
-        // Load JSON data automatically
         window.onload = function() {
             fetch('catalog.json')
                 .then(response => response.json())
                 .then(data => {
-                    // Sort by sequence number (1 goes first)
                     catalogData = data.sort((a, b) => a.sequence - b.sequence);
-                    renderCatalog('all'); // Show all by default
+                    renderCatalog('all'); 
                 })
                 .catch(error => {
                     document.getElementById('json-product-grid').innerHTML = '<p>No items found in this category.</p>';
@@ -157,10 +180,9 @@
                 });
         };
 
-        // Render catalog items
         function renderCatalog(category) {
             const grid = document.getElementById('json-product-grid');
-            grid.innerHTML = ''; // Clear current items
+            grid.innerHTML = ''; 
 
             const filteredData = category === 'all' 
                 ? catalogData 
@@ -172,7 +194,6 @@
             }
 
             filteredData.forEach(item => {
-                // Generate the HTML card for each JSON item
                 const card = `
                     <div class="product-card">
                         <img src="${item.image}" alt="${item.title}" onerror="this.onerror=null; this.src=''; this.parentElement.insertAdjacentHTML('afterbegin', '<div class=\\'product-img\\'>[ Photo: ${item.title} ]</div>'); this.remove();">
@@ -186,13 +207,9 @@
             });
         }
 
-        // Filter button logic
         function filterCatalog(category) {
-            // Update active button state
             document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
             event.currentTarget.classList.add('active');
-            
-            // Re-render
             renderCatalog(category);
         }
     </script>
