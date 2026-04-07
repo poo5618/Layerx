@@ -3,506 +3,685 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LayerX 3D Printing</title>
+    <title>LayerX | 3D Printing & Fabrication</title>
     <!-- FontAwesome for real icons in the footer -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* CORE VARIABLES: Modern Minimalist Palette */
         :root {
-            --primary-orange: #ff5722;
-            --dark-slate: #1e293b;
-            --light-bg: #f8fafc;
+            --dark-slate: #1e1e24; /* A premium, softer black */
+            --accent-orange: #ff5722; /* Your logo color */
+            --bg-light: #f8f9fa; /* Very soft off-white background */
             --white: #ffffff;
-            --text-main: #334155;
-            --border-light: #e2e8f0;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --border-light: #eaeaea;
+            --shadow-soft: 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-hover: 0 12px 32px rgba(0,0,0,0.12);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: var(--light-bg);
+            background-color: var(--bg-light);
             color: var(--text-main);
+            padding-top: 70px; /* Space for header */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
             line-height: 1.6;
-        }
-
-        /* Header */
-        .site-header {
-            background-color: var(--white);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .logo-container img {
-            height: 65px; /* Bigger logo */
-            max-width: 220px;
-            object-fit: contain;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 15px;
-        }
-
-        .nav-btn {
-            background: none;
-            border: none;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-main);
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 6px;
-            transition: background 0.2s;
-        }
-
-        .nav-btn:hover, .nav-btn.active {
-            background-color: var(--light-bg);
-            color: var(--primary-orange);
-        }
-
-        /* Service Area Banner */
-        .service-banner {
-            background-color: var(--dark-slate);
-            color: var(--white);
-            text-align: center;
-            padding: 12px;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .service-banner span {
-            color: var(--primary-orange);
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
-
-        /* Page Sections */
-        .page-section {
-            display: none;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-
-        .page-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         h1, h2, h3 {
             color: var(--dark-slate);
-            margin-bottom: 15px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
-        .section-title {
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 30px;
+        /* ================= STICKY HEADER ================= */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background-color: var(--white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        /* Home Page Cards */
-        .home-split {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 25px;
-            margin-top: 20px;
-        }
-
-        @media(min-width: 600px) {
-            .home-split { grid-template-columns: 1fr 1fr; }
-        }
-
-        .action-card {
-            background: var(--white);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        .header-logo {
+            font-size: 24px;
+            font-weight: 900;
             cursor: pointer;
-            border: 1px solid var(--border-light);
-            transition: transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 0.5px;
+            color: var(--dark-slate);
+        }
+        
+        .header-logo span {
+            color: var(--accent-orange);
         }
 
-        .action-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .card-img-placeholder {
-            height: 180px;
-            background-color: #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #94a3b8;
-            font-size: 14px;
-        }
-
-        .action-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-
-        .card-content {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .card-content h3 {
-            margin-bottom: 10px;
-            font-size: 20px;
-        }
-
-        /* Custom Print Page */
-        .spec-box {
-            background: var(--white);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-light);
-        }
-
-        .swatch-container {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .swatch {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            border: 1px solid #ccc;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .gallery-grid img, .gallery-placeholder {
-            width: 100%;
-            height: 140px;
-            border-radius: 8px;
-            background: #e2e8f0;
-            object-fit: cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #94a3b8;
-            font-size: 12px;
-            text-align: center;
-        }
-
-        /* Catalog Page */
-        .catalog-nav {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-
-        .cat-btn {
-            padding: 8px 15px;
-            background: var(--white);
-            border: 1px solid var(--border-light);
-            border-radius: 20px;
-            font-size: 14px;
-            cursor: pointer;
-            color: var(--text-main);
-        }
-
-        .cat-btn.active {
-            background: var(--dark-slate);
-            color: var(--white);
-            border-color: var(--dark-slate);
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .product-card {
-            background: var(--white);
-            border: 1px solid var(--border-light);
-            border-radius: 10px;
-            overflow: hidden;
-            padding: 15px;
-            text-align: center;
-        }
-
-        .product-card img, .product-img {
-            width: 100%;
-            height: 160px;
-            background: #e2e8f0;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            object-fit: cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #94a3b8;
-            font-size: 12px;
-        }
-
-        .price {
-            color: var(--primary-orange);
-            font-weight: bold;
-            font-size: 18px;
-            margin: 10px 0;
-        }
-
-        /* Buttons */
-        .btn-primary {
-            display: inline-block;
-            background-color: var(--primary-orange);
+        .global-contact-btn {
+            background-color: var(--accent-orange);
             color: var(--white);
             padding: 10px 20px;
             text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
             border-radius: 6px;
-            font-weight: bold;
-            width: 100%;
-            text-align: center;
-            transition: background 0.2s;
-            border: none;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .btn-primary:hover {
-            background-color: #e64a19;
-        }
-
-        /* Footer */
-        .site-footer {
+        .global-contact-btn:hover {
             background-color: var(--dark-slate);
-            color: var(--white);
-            padding: 40px 30px;
-            margin-top: 40px;
-            text-align: left; /* Left Aligned */
+            transform: translateY(-2px);
         }
 
-        .footer-icons {
-            display: flex;
-            gap: 20px;
+        /* ================= PAGE CONTAINER ================= */
+        .main-content {
+            flex-grow: 1;
+        }
+
+        .view-section {
+            display: none;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ================= HOME VIEW (MODERN) ================= */
+        .hero-section {
+            text-align: center;
+            padding: 20px 0 50px 0;
+        }
+
+        .hero-logo-img {
+            max-width: 100%;
+            width: 320px;
+            height: auto;
             margin-bottom: 20px;
-            justify-content: flex-start; /* Left Aligned */
         }
 
-        .footer-icons a {
-            color: var(--white);
-            font-size: 24px;
-            text-decoration: none;
+        .hero-tagline {
+            font-size: 20px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Elegant Delivery Area Banner */
+        .delivery-banner {
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .delivery-icon {
+            font-size: 28px;
+        }
+
+        .delivery-text {
+            font-size: 16px;
+            color: var(--text-main);
+        }
+
+        .delivery-text strong {
+            color: var(--dark-slate);
+            display: block;
+            margin-bottom: 4px;
+            font-size: 18px;
+        }
+
+        /* The 2 Main Image Cards */
+        .split-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .nav-card {
+            background-color: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-light);
+        }
+
+        .nav-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent-orange);
+        }
+
+        .nav-card-img {
+            width: 100%;
+            height: 280px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-style: italic;
+            border-bottom: 1px solid var(--border-light);
+            object-fit: cover;
+        }
+
+        .nav-card-body {
+            padding: 30px;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .nav-card-body h2 {
+            font-size: 26px;
+            margin-bottom: 12px;
+            color: var(--dark-slate);
+        }
+
+        .nav-card-body p {
+            color: var(--text-muted);
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .nav-action {
+            color: var(--accent-orange);
+            font-weight: 700;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ================= INTERNAL PAGES UI UTILS ================= */
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             transition: color 0.2s;
         }
+        .back-btn:hover { color: var(--accent-orange); }
 
-        .footer-icons a:hover {
-            color: var(--primary-orange);
+        .section-title {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 16px;
+            margin-bottom: 40px;
         }
 
-        .footer-details p {
-            margin: 5px 0;
-            font-size: 14px;
-            color: #cbd5e1;
+        /* ================= CATALOG VIEW ================= */
+        .catalog-nav { display: flex; gap: 12px; margin-bottom: 30px; flex-wrap: wrap; }
+        
+        .filter-btn { 
+            background-color: var(--white); 
+            border: 1px solid var(--border-light); 
+            padding: 10px 20px; 
+            font-size: 14px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            border-radius: 30px;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+        .filter-btn.active, .filter-btn:hover { 
+            background-color: var(--accent-orange); 
+            color: var(--white); 
+            border-color: var(--accent-orange); 
         }
 
-        .footer-details span {
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+
+        .product-card { 
+            background-color: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex; 
+            flex-direction: column; 
+            transition: 0.3s; 
+            border: 1px solid var(--border-light);
+        }
+        .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+
+        .product-img { 
+            height: 220px; 
+            background-color: #e9ecef; 
+            display: flex; align-items: center; justify-content: center; color: #999; 
+            object-fit: cover;
+        }
+        
+        .product-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .product-title { font-size: 18px; margin-bottom: 5px; font-weight: 700; color: var(--dark-slate);}
+        .product-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 15px;}
+        .product-price { font-size: 22px; color: var(--accent-orange); font-weight: 800; margin-bottom: 20px; }
+
+        .btn-order { 
+            background-color: var(--bg-light); 
+            color: var(--dark-slate); 
+            text-align: center; 
+            padding: 12px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 14px; 
+            border-radius: 6px;
+            margin-top: auto; 
+            border: 1px solid var(--border-light); 
+            transition: 0.2s;
+        }
+        .btn-order:hover { background-color: var(--dark-slate); color: var(--white); border-color: var(--dark-slate); }
+
+        /* ================= CUSTOM PRINT VIEW ================= */
+        .custom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 50px; }
+        
+        .filament-box { 
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 30px; 
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-light);
+        }
+        .filament-box h3 { font-size: 24px; color: var(--dark-slate); margin-bottom: 15px; }
+        .filament-box p { margin-bottom: 20px; color: var(--text-muted); font-size: 15px; }
+
+        .color-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 15px; }
+        .color-swatch { width: 32px; height: 32px; border-radius: 50%; display: inline-block; border: 2px solid rgba(0,0,0,0.1); }
+        
+        /* Swatch Colors Request: Red, black, dark grey, light grey, blue or white */
+        .c-red { background-color: #dc2626; }
+        .c-black { background-color: #000000; }
+        .c-darkgrey { background-color: #4b5563; }
+        .c-lightgrey { background-color: #cbd5e1; }
+        .c-blue { background-color: #2563eb; }
+        .c-white { background-color: #ffffff; }
+
+        .color-label { display: flex; flex-direction: column; align-items: center; font-size: 12px; font-weight: 600; color: var(--text-muted); gap: 5px;}
+
+        .project-card { 
+            background-color: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-light);
+        }
+        .project-img { width: 100%; height: 180px; background-color: #e9ecef; display: flex; align-items: center; justify-content: center; color: #999; object-fit: cover;}
+        .project-details { padding: 20px; }
+
+        .action-banner { 
+            background-color: var(--dark-slate); 
+            color: var(--white); 
+            padding: 40px; 
+            text-align: center; 
+            border-radius: 16px;
+            margin-top: 20px; 
+            box-shadow: var(--shadow-hover);
+        }
+        .action-banner h2 { color: var(--white); font-size: 28px; margin-bottom: 10px; }
+        .action-banner p { font-size: 16px; margin-bottom: 25px; color: #cccccc; }
+        .btn-primary {
+            background-color: var(--accent-orange);
             color: var(--white);
-            font-weight: bold;
+            padding: 15px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+            transition: 0.3s;
+        }
+        .btn-primary:hover { background-color: #e64a19; transform: translateY(-2px); }
+
+        /* ================= FOOTER SECTION (LEFT ALIGNED) ================= */
+        .site-footer { 
+            background-color: var(--dark-slate); 
+            color: var(--white); 
+            padding: 50px 30px 40px 30px; 
+            text-align: left; /* Left Aligned */
+            margin-top: auto; 
+        }
+        .footer-logo { font-size: 24px; font-weight: 900; margin-bottom: 20px; letter-spacing: 0.5px;}
+        .footer-logo span { color: var(--accent-orange); }
+        
+        .footer-icons { 
+            display: flex; 
+            justify-content: flex-start; /* Left Aligned */
+            gap: 15px; 
+            margin-bottom: 30px; 
+        }
+        .footer-icons a { 
+            background-color: rgba(255,255,255,0.05); 
+            color: var(--white); 
+            width: 45px; height: 45px; 
+            display: flex; align-items: center; justify-content: center; 
+            border-radius: 50%; 
+            transition: all 0.3s; 
+            font-size: 20px; /* Sizing for FontAwesome */
+            text-decoration: none;
+        }
+        .footer-icons a:hover { background-color: var(--accent-orange); transform: translateY(-5px); color: var(--white); }
+        
+        .footer-details { font-size: 15px; line-height: 1.8; color: #aaaaaa; }
+        .footer-details p { margin: 5px 0; }
+        .footer-details span { color: var(--white); font-weight: 600; margin-right: 5px; }
+
+        .copyright { margin-top: 40px; font-size: 13px; color: #777777; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .split-container, .custom-grid { grid-template-columns: 1fr; }
+            .hero-logo-img { width: 260px; }
+            .hero-tagline { font-size: 16px; }
+            .delivery-banner { flex-direction: column; text-align: center; gap: 5px; padding: 20px;}
+            .nav-card-img { height: 200px; }
+            .site-footer { padding: 40px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <header class="site-header">
-        <div class="logo-container">
-            <img src="images/logo.png" alt="LayerX Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<h2 style=\'color:var(--dark-slate)\'>LAYER<span style=\'color:var(--primary-orange)\'>X</span></h2>';">
-        </div>
-        <nav class="nav-links">
-            <button class="nav-btn active" onclick="showPage('home')">Home</button>
-            <button class="nav-btn" onclick="showPage('custom')">Custom Prints</button>
-            <button class="nav-btn" onclick="showPage('catalog')">Gift Catalog</button>
-        </nav>
-    </header>
-
-    <div class="service-banner">
-        📍 Serving <span>Govandi, Dombivli, Panvel</span> & Harbour Line Stations
+    <!-- STICKY HEADER -->
+    <div class="sticky-header">
+        <div class="header-logo" onclick="navigate('home')">Layer<span>X</span></div>
+        <a href="https://wa.me/919167268299?text=Hello LayerX, I want to place an order." target="_blank" class="global-contact-btn">
+            Contact Us
+        </a>
     </div>
 
-    <div class="container">
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="main-content">
         
-        <!-- PAGE 1: HOME -->
-        <div id="home" class="page-section active">
-            <h1 class="section-title">Bring your ideas to reality.</h1>
-            <p style="text-align: center; margin-bottom: 20px;">Select an option below to get started.</p>
+        <!-- ============================================== -->
+        <!-- VIEW: HOME (MODERN & CLEAN)                    -->
+        <!-- ============================================== -->
+        <div id="view-home" class="view-section active">
+            
+            <!-- Clean Hero -->
+            <div class="hero-section">
+                <!-- Your real logo.png from images folder -->
+                <img src="images/logo.png" alt="LayerX Logo" class="hero-logo-img" onerror="this.outerHTML='<h1 style=\'font-size: 40px; margin-bottom: 20px;\'>Layer<span style=\'color: var(--accent-orange);\'>X</span></h1>';">
+                <div class="hero-tagline">Precision 3D Printing & Custom Fabrication</div>
+            </div>
 
-            <div class="home-split">
-                <div class="action-card" onclick="showPage('custom')">
-                    <!-- Just change the src to your actual image name when ready -->
-                    <div class="card-img-placeholder">[ Upload custom.jpg to images folder ]</div>
-                    <div class="card-content">
-                        <h3>Custom 3D Prints</h3>
-                        <p>Prototypes, replacement parts, and fabrication.</p>
+            <!-- Elegant Delivery Banner -->
+            <div class="delivery-banner">
+                <div class="delivery-icon">📍</div>
+                <div class="delivery-text">
+                    <strong>Local Delivery & Pickup Zones</strong>
+                    Serving Govandi, Dombivli, Panvel, and Harbour Line Stations.
+                </div>
+            </div>
+
+            <!-- Engaging Image Nav Cards (The Split) -->
+            <div class="split-container">
+                
+                <!-- Custom Print Card (FIRST) -->
+                <div class="nav-card" onclick="navigate('custom')">
+                    <!-- Replace the div below with an <img> tag later: <img src="images/custom.jpg" class="nav-card-img"> -->
+                    <div class="nav-card-img">[ Upload photo of mechanical parts/prototypes ]</div>
+                    <div class="nav-card-body">
+                        <h2>Custom 3D Printing</h2>
+                        <p>Upload your STL files. Industrial materials, bespoke CAD design, and rapid prototyping services.</p>
+                        <div class="nav-action">View Specs & Upload &rarr;</div>
                     </div>
                 </div>
 
-                <div class="action-card" onclick="showPage('catalog')">
-                    <!-- Just change the src to your actual image name when ready -->
-                    <div class="card-img-placeholder">[ Upload gifts.jpg to images folder ]</div>
-                    <div class="card-content">
-                        <h3>Gift Catalog</h3>
-                        <p>Browse our ready-to-print toys, decor, and personal gifts.</p>
+                <!-- Catalog Card (SECOND) -->
+                <div class="nav-card" onclick="navigate('catalog')">
+                    <!-- Replace the div below with an <img> tag later: <img src="images/gifts.jpg" class="nav-card-img"> -->
+                    <div class="nav-card-img">[ Upload photo of colorful toys/gifts ]</div>
+                    <div class="nav-card-body">
+                        <h2>Gift Catalog</h2>
+                        <p>Browse our collection of fixed-price customizable gifts, decorative items, and articulated toys.</p>
+                        <div class="nav-action">Browse Products &rarr;</div>
                     </div>
                 </div>
+
             </div>
         </div>
 
-        <!-- PAGE 2: CUSTOM PRINTS -->
-        <div id="custom" class="page-section">
-            <h1 class="section-title">Custom 3D Printing & Design</h1>
+        <!-- ============================================== -->
+        <!-- VIEW: GIFT CATALOG                             -->
+        <!-- ============================================== -->
+        <div id="view-catalog" class="view-section">
+            <button class="back-btn" onclick="navigate('home')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to Home
+            </button>
             
-            <div class="spec-box">
-                <h3>Our Materials & Colors</h3>
-                <p><strong>PLA:</strong> Great for prototypes, visual models, and decorative items.</p>
-                <p><strong>PETG:</strong> High strength, durable, and temperature resistant for functional parts.</p>
-                <br>
-                <p><strong>Available Colors:</strong></p>
-                <div class="swatch-container">
-                    <div class="swatch" style="background-color: #dc2626;" title="Red"></div>
-                    <div class="swatch" style="background-color: #000000;" title="Black"></div>
-                    <div class="swatch" style="background-color: #4b5563;" title="Dark Grey"></div>
-                    <div class="swatch" style="background-color: #cbd5e1;" title="Light Grey"></div>
-                    <div class="swatch" style="background-color: #2563eb;" title="Blue"></div>
-                    <div class="swatch" style="background-color: #ffffff;" title="White"></div>
-                </div>
-            </div>
+            <h1 class="section-title">Product Catalog</h1>
+            <p class="section-subtitle">Personalized gifts and decorative items available at fixed rates.</p>
 
-            <div class="spec-box">
-                <h3>Design Services</h3>
-                <p>Have an idea but no 3D file? We provide custom 3D modeling services to bring your concept into the real world.</p>
-            </div>
-
-            <a href="https://wa.me/919167268299" class="btn-primary" style="margin-bottom: 30px;">Send Files & Get Quote on WhatsApp</a>
-
-            <h3>Past Customer Projects</h3>
-            <div class="gallery-grid">
-                <div class="gallery-placeholder">[ Upload print1.jpg ]</div>
-                <div class="gallery-placeholder">[ Upload print2.jpg ]</div>
-                <div class="gallery-placeholder">[ Upload print3.jpg ]</div>
-                <div class="gallery-placeholder">[ Upload print4.jpg ]</div>
-            </div>
-        </div>
-
-        <!-- PAGE 3: CATALOG -->
-        <div id="catalog" class="page-section">
-            <h1 class="section-title">Gift & Product Catalog</h1>
-            
             <div class="catalog-nav">
-                <button class="cat-btn active" onclick="filterCatalog('all')">All Items</button>
-                <button class="cat-btn" onclick="filterCatalog('personal')">Personal Gifts</button>
-                <button class="cat-btn" onclick="filterCatalog('decorative')">Decorative</button>
-                <button class="cat-btn" onclick="filterCatalog('toys')">Toys & Props</button>
+                <button class="filter-btn active" onclick="filterCatalog('all')">All Items</button>
+                <button class="filter-btn" onclick="filterCatalog('personal')">Personal Gifts</button>
+                <button class="filter-btn" onclick="filterCatalog('decorative')">Decorative</button>
+                <button class="filter-btn" onclick="filterCatalog('toys')">Toys</button>
             </div>
 
-            <div class="product-grid" id="json-product-grid">
-                <p>Loading catalog...</p>
+            <div class="grid-3" id="product-grid">
+                
+                <div class="product-card" data-category="personal">
+                    <div class="product-img">[Image: Keychain]</div>
+                    <div class="product-info">
+                        <div class="product-title">Custom Name Keychain</div>
+                        <div class="product-desc">Durable two-color keychain. Max 10 characters.</div>
+                        <div class="product-price">₹150</div>
+                        <a href="https://wa.me/919167268299?text=I want to order: Custom Name Keychain" target="_blank" class="btn-order">Order via WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="personal">
+                    <div class="product-img">[Image: Lithophane]</div>
+                    <div class="product-info">
+                        <div class="product-title">Photo Lithophane</div>
+                        <div class="product-desc">Send a photo, we print it as a translucent 3D panel.</div>
+                        <div class="product-price">₹600</div>
+                        <a href="https://wa.me/919167268299?text=I want to order: Photo Lithophane" target="_blank" class="btn-order">Order via WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="decorative">
+                    <div class="product-img">[Image: Pen Holder]</div>
+                    <div class="product-info">
+                        <div class="product-title">Geometric Pen Holder</div>
+                        <div class="product-desc">Low-poly modern desk organizer.</div>
+                        <div class="product-price">₹350</div>
+                        <a href="https://wa.me/919167268299?text=I want to order: Geometric Pen Holder" target="_blank" class="btn-order">Order via WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="decorative">
+                    <div class="product-img">[Image: Planter]</div>
+                    <div class="product-info">
+                        <div class="product-title">Succulent Planter Box</div>
+                        <div class="product-desc">Small indoor planter with drainage holes.</div>
+                        <div class="product-price">₹400</div>
+                        <a href="https://wa.me/919167268299?text=I want to order: Succulent Planter" target="_blank" class="btn-order">Order via WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="toys">
+                    <div class="product-img">[Image: Dragon]</div>
+                    <div class="product-info">
+                        <div class="product-title">Articulated Flexi-Dragon</div>
+                        <div class="product-desc">Fully movable printed toy. Multiple colors.</div>
+                        <div class="product-price">₹800</div>
+                        <a href="https://wa.me/919167268299?text=I want to order: Articulated Dragon" target="_blank" class="btn-order">Order via WhatsApp</a>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-    </div>
+        <!-- ============================================== -->
+        <!-- VIEW: CUSTOM PRINT & PROJECT                   -->
+        <!-- ============================================== -->
+        <div id="view-custom" class="view-section">
+            <button class="back-btn" onclick="navigate('home')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to Home
+            </button>
+            
+            <h1 class="section-title">Custom Projects</h1>
+            <p class="section-subtitle">Send your STL files for manufacturing, or contact us for CAD modeling.</p>
 
-    <!-- GLOBAL FOOTER -->
+            <div class="custom-grid">
+                <div class="filament-box">
+                    <h3>PLA (Polylactic Acid)</h3>
+                    <p>Standard material for rapid prototyping, decorative models, and indoor items. Highly detailed and rigid.</p>
+                    <div style="font-weight: 700; font-size: 13px; color: var(--dark-slate); margin-bottom: 8px;">AVAILABLE COLORS:</div>
+                    <div class="color-row">
+                        <div class="color-label"><div class="color-swatch c-red"></div>Red</div>
+                        <div class="color-label"><div class="color-swatch c-black"></div>Black</div>
+                        <div class="color-label"><div class="color-swatch c-darkgrey"></div>Dark Grey</div>
+                        <div class="color-label"><div class="color-swatch c-lightgrey"></div>Light Grey</div>
+                        <div class="color-label"><div class="color-swatch c-blue"></div>Blue</div>
+                        <div class="color-label"><div class="color-swatch c-white"></div>White</div>
+                    </div>
+                </div>
+
+                <div class="filament-box">
+                    <h3>PETG (Polyethylene)</h3>
+                    <p>Industrial-grade material. Higher temperature resistance, impact strength, and flexibility. Best for functional parts.</p>
+                    <div style="font-weight: 700; font-size: 13px; color: var(--dark-slate); margin-bottom: 8px;">AVAILABLE COLORS:</div>
+                    <div class="color-row">
+                        <div class="color-label"><div class="color-swatch c-red"></div>Red</div>
+                        <div class="color-label"><div class="color-swatch c-black"></div>Black</div>
+                        <div class="color-label"><div class="color-swatch c-darkgrey"></div>Dark Grey</div>
+                        <div class="color-label"><div class="color-swatch c-lightgrey"></div>Light Grey</div>
+                        <div class="color-label"><div class="color-swatch c-blue"></div>Blue</div>
+                        <div class="color-label"><div class="color-swatch c-white"></div>White</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title" style="font-size: 26px;">Past Client Work</h2>
+            <div class="grid-3">
+                <div class="project-card">
+                    <div class="project-img">[ Photo of Mechanical Part ]</div>
+                    <div class="project-details">
+                        <h3 style="font-size: 18px; margin-bottom: 5px;">Custom Drone Mount</h3>
+                        <p style="font-size: 13px; color: var(--accent-orange); font-weight: 600; margin-bottom: 10px;">Material: PETG</p>
+                        <p style="font-size: 14px; color: var(--text-muted);">High-strength mount for a custom drone camera. Printed for impact resistance.</p>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-img">[ Photo of Prototype ]</div>
+                    <div class="project-details">
+                        <h3 style="font-size: 18px; margin-bottom: 5px;">Electronics Enclosure</h3>
+                        <p style="font-size: 13px; color: var(--accent-orange); font-weight: 600; margin-bottom: 10px;">Material: PLA</p>
+                        <p style="font-size: 14px; color: var(--text-muted);">Designed and printed a snap-fit case for an engineering project.</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-img">[ Photo of Restored Part ]</div>
+                    <div class="project-details">
+                        <h3 style="font-size: 18px; margin-bottom: 5px;">Replacement Gear</h3>
+                        <p style="font-size: 13px; color: var(--accent-orange); font-weight: 600; margin-bottom: 10px;">Material: PETG</p>
+                        <p style="font-size: 14px; color: var(--text-muted);">Reverse-engineered a broken nylon gear and printed a functional replacement.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-banner">
+                <h2>Ready to Start?</h2>
+                <p>Send your 3D files directly via WhatsApp for a material review and quote.</p>
+                <a href="https://wa.me/919167268299?text=Hello LayerX, I have a custom 3D file to print." target="_blank" class="btn-primary">
+                    Upload Files via WhatsApp
+                </a>
+            </div>
+        </div>
+    </div> 
+
+    <!-- ============================================== -->
+    <!-- FOOTER (LEFT ALIGNED WITH REAL ICONS)          -->
+    <!-- ============================================== -->
     <footer class="site-footer">
+        <div class="footer-logo">Layer<span>X</span></div>
+        
         <div class="footer-icons">
-            <a href="mailto:acc.thecraftedstone@gmail.com"><i class="fa-solid fa-envelope"></i></a>
-            <a href="https://instagram.com/_layerx_"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://wa.me/919167268299"><i class="fa-brands fa-whatsapp"></i></a>
-            <a href="tel:+919167268299"><i class="fa-solid fa-phone"></i></a>
+            <a href="mailto:acc.thecraftedstone@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+            <a href="https://instagram.com/_layerx_" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://wa.me/919167268299" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="tel:+919167268299" aria-label="Phone"><i class="fa-solid fa-phone"></i></a>
         </div>
+        
         <div class="footer-details">
-            <p>Email: <span>acc.thecraftedstone@gmail.com</span></p>
-            <p>Insta: <span>_layerx_</span></p>
-            <p>Phone/WA: <span>+91 9167268299</span></p>
+            <p><span>Email:</span> acc.thecraftedstone@gmail.com</p>
+            <p><span>Instagram:</span> @_layerx_</p>
+            <p><span>Phone / WhatsApp:</span> +91 91672 68299</p>
+        </div>
+
+        <div class="copyright">
+            &copy; 2026 LayerX Manufacturing. All Rights Reserved.
         </div>
     </footer>
 
-    <!-- NAVIGATION AND JSON AUTOMATION SCRIPT -->
+    <!-- JAVASCRIPT -->
     <script>
-        function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-        }
-
-        let catalogData = [];
-
-        window.onload = function() {
-            fetch('catalog.json')
-                .then(response => response.json())
-                .then(data => {
-                    catalogData = data.sort((a, b) => a.sequence - b.sequence);
-                    renderCatalog('all'); 
-                })
-                .catch(error => {
-                    document.getElementById('json-product-grid').innerHTML = '<p>No items found in this category.</p>';
-                    console.error("Error fetching catalog:", error);
-                });
-        };
-
-        function renderCatalog(category) {
-            const grid = document.getElementById('json-product-grid');
-            grid.innerHTML = ''; 
-
-            const filteredData = category === 'all' 
-                ? catalogData 
-                : catalogData.filter(item => item.category === category);
-
-            if(filteredData.length === 0) {
-                grid.innerHTML = '<p>No items found in this category.</p>';
-                return;
-            }
-
-            filteredData.forEach(item => {
-                const card = `
-                    <div class="product-card">
-                        <img src="${item.image}" alt="${item.title}" onerror="this.onerror=null; this.src=''; this.parentElement.insertAdjacentHTML('afterbegin', '<div class=\\'product-img\\'>[ Photo: ${item.title} ]</div>'); this.remove();">
-                        <h3>${item.title}</h3>
-                        <p class="price">${item.price}</p>
-                        <p style="font-size: 14px; margin-bottom: 15px;">${item.description}</p>
-                        <a href="https://wa.me/919167268299?text=Hi, I would like to order the ${item.title} (${item.price})" class="btn-primary">Order via WA</a>
-                    </div>
-                `;
-                grid.innerHTML += card;
-            });
+        function navigate(viewId) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById('view-' + viewId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function filterCatalog(category) {
-            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            renderCatalog(category);
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const items = document.querySelectorAll('.product-card');
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
         }
     </script>
 </body>
