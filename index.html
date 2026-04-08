@@ -3,214 +3,960 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LayerX 3D Printing</title>
-    <!-- Links to your CSS file -->
-    <link rel="stylesheet" href="style.css">
-    <!-- FontAwesome for real icons in the footer -->
+    <title>LayerX - Professional 3D Printing Services</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        /* Override logo size to make it bigger */
-        .site-header { padding: 10px 20px; }
-        .logo-container img {
-            height: 75px !important; 
-            max-width: 250px !important;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* View Switching Logic (Multi-Page Feel) */
+        main {
+            flex-grow: 1;
+        }
+        .page-section {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        .page-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #1a365d;
+            color: white;
+            padding: 1.5rem 0;
+            border-bottom: 4px solid #2d3748;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #63b3ed;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        
+        .logo i {
+            color: #4299e1;
+        }
+
+        .logo img {
+            height: 40px;
             object-fit: contain;
         }
         
-        /* Styles for the image placeholders */
-        .img-fallback {
-            display: flex; align-items: center; justify-content: center;
-            background: #e2e8f0; color: #94a3b8; font-size: 14px; text-align: center;
-            width: 100%; height: 180px; object-fit: cover;
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
         }
-        .gallery-img { 
-            width: 100%; height: 140px; border-radius: 8px; object-fit: cover; background: #e2e8f0; 
+        
+        nav a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        nav a:hover {
+            color: #63b3ed;
+        }
+        
+        nav a.active {
+            color: #63b3ed;
+        }
+        
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #63b3ed;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(26, 54, 93, 0.9), rgba(26, 54, 93, 0.8)), url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 750px;
+            margin: 0 auto 2rem;
+            color: #e2e8f0;
         }
 
-        /* Override Footer Alignment to Left */
-        .site-footer {
-            text-align: left !important;
-            padding: 40px 30px !important; /* slightly more padding so it isn't touching the screen edge */
+        .hero-location {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid #4299e1;
+            padding: 10px 20px;
+            border-radius: 30px;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            color: #63b3ed;
         }
-        .footer-icons {
-            justify-content: flex-start !important;
+        
+        .btn {
+            display: inline-block;
+            background-color: #4299e1;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #3182ce;
+        }
+        
+        .btn-whatsapp {
+            background-color: #25D366;
+        }
+        
+        .btn-whatsapp:hover {
+            background-color: #1da851;
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #2d3748;
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #4299e1;
+        }
+        
+        /* Services Home Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: 6px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #4299e1;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            display: block;
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            color: #4299e1;
+            margin-bottom: 1rem;
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+        
+        /* Materials Grid */
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .material-card {
+            background: white;
+            border-radius: 6px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .material-color {
+            width: 100%;
+            height: 120px;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        
+        .pla-color { background: linear-gradient(45deg, #fbbf24, #f59e0b, #d97706); }
+        .petg-color { background: linear-gradient(45deg, #10b981, #059669, #047857); }
+
+        .color-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .color-pill {
+            background-color: #edf2f7;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            border: 1px solid #cbd5e0;
+        }
+
+        /* Catalog Filters & Grid */
+        .catalog-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background-color: transparent;
+            color: #4299e1;
+            border: 2px solid #4299e1;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: #4299e1;
+            color: white;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .catalog-card {
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .catalog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .catalog-img {
+            height: 220px;
+            background-color: #edf2f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a0aec0;
+            font-style: italic;
+        }
+        
+        .catalog-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .catalog-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .catalog-price {
+            font-size: 1.5rem;
+            color: #4299e1;
+            font-weight: 700;
+            margin: 0.5rem 0 1rem;
+        }
+        
+        /* Pricing Info Box */
+        .pricing-note {
+            padding: 2rem;
+            background-color: #ebf8ff;
+            border-left: 5px solid #4299e1;
+            border-radius: 6px;
+            color: #2d3748;
+            margin-bottom: 3rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        /* Gallery (Past Prints) */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .gallery-item {
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 250px;
+            position: relative;
+            background-color: #edf2f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a0aec0;
+            font-size: 14px;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 54, 93, 0.85);
+            color: white;
+            padding: 0.8rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+        
+        .contact-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 6px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-icon {
+            font-size: 1.5rem;
+            color: #4299e1;
+            margin-right: 1rem;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .whatsapp-contact {
+            background-color: #f0fff4;
+            border-left: 4px solid #25D366;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #1a365d;
+            color: #e2e8f0;
+            padding: 3rem 0 1.5rem;
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-logo {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #63b3ed;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links a {
+            color: #cbd5e0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #63b3ed;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #2d3748;
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .section-title { font-size: 1.8rem; }
+            nav ul { flex-direction: column; gap: 1rem; display: none; }
+            .header-container { flex-direction: column; gap: 1rem; }
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Process Steps */
+        .process-steps {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .step {
+            text-align: center;
+            max-width: 200px;
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background-color: #4299e1;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 0 auto 1rem;
+        }
+        
+        .step p {
+            color: #4a5568;
+        }
+
+        a.contact-link {
+            color: #4a5568;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a.contact-link:hover {
+            color: #4299e1;
         }
     </style>
 </head>
 <body>
-
-    <header class="site-header">
-        <div class="logo-container">
-            <!-- Your Logo -->
-            <img src="images/logo.png" alt="LayerX Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<h2 style=\'color:var(--dark-slate)\'>LAYER<span style=\'color:var(--primary-orange)\'>X</span></h2>';">
+    <!-- Header Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo" onclick="navigate('view-home')">
+                <img src="images/logo.png" alt="LayerX Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <span style="display: none; align-items: center; gap: 10px;"><i class="fas fa-cube"></i> LayerX</span>
+            </div>
+            <nav>
+                <ul id="nav-list">
+                    <li><a onclick="navigate('view-home')" class="nav-btn active" id="nav-view-home">Home</a></li>
+                    <li><a onclick="navigate('view-custom')" class="nav-btn" id="nav-view-custom">Custom Prints</a></li>
+                    <li><a onclick="navigate('view-catalog')" class="nav-btn" id="nav-view-catalog">Gift Catalog</a></li>
+                </ul>
+            </nav>
         </div>
-        <nav class="nav-links">
-            <button class="nav-btn active" onclick="showPage('home')">Home</button>
-            <button class="nav-btn" onclick="showPage('custom')">Custom Prints</button>
-            <button class="nav-btn" onclick="showPage('catalog')">Gift Catalog</button>
-        </nav>
     </header>
 
-    <div class="service-banner">
-        <!-- Edit your locations here inside the span tags! -->
-        📍 Serving <span>Govandi, Dombivli, Panvel</span> & Harbour Line Stations
-    </div>
+    <main>
+        <!-- ========================================== -->
+        <!-- PAGE 1: HOME PAGE                          -->
+        <!-- ========================================== -->
+        <div id="view-home" class="page-section active">
+            <!-- Hero Section -->
+            <section class="hero" style="padding-top: 5rem;">
+                <div class="container">
+                    <h1>LayerX 3D Printing</h1>
+                    <p>High-quality custom 3D prints, prototypes, and gift items using industrial-grade PLA and PETG materials. Precision manufacturing for your creative projects.</p>
+                    
+                    <div class="hero-location">
+                        <i class="fas fa-map-marker-alt"></i> Serving Govandi, Dombivli, Panvel & Harbour Line Stations
+                    </div>
+                    <br>
+                    
+                    <a href="https://wa.me/919167268299?text=Hi%20LayerX,%20I%20have%20an%20inquiry%20regarding%203D%20printing." class="btn btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> Contact via WhatsApp
+                    </a>
+                </div>
+            </section>
 
-    <div class="container">
-        
-        <!-- PAGE 1: HOME -->
-        <div id="home" class="page-section active">
-            <h1 class="section-title">Bring your ideas to reality.</h1>
-            <p style="text-align: center; margin-bottom: 20px;">Select an option below to get started.</p>
-
-            <div class="home-split">
-                <div class="action-card" onclick="showPage('custom')">
-                    <!-- Upload a photo named custom.jpg to your images folder -->
-                    <img src="images/custom.jpg" alt="Custom Prints" class="img-fallback" onerror="this.outerHTML='<div class=\\'img-fallback\\'>[ Upload images/custom.jpg ]</div>'">
-                    <div class="card-content">
-                        <h3>Custom 3D Prints</h3>
-                        <p>Prototypes, replacement parts, and fabrication.</p>
+            <!-- Services Section -->
+            <section class="bg-gray-50">
+                <div class="container">
+                    <h2 class="section-title">Our Services</h2>
+                    <div class="services-grid">
+                        
+                        <!-- Links to Custom Prints Page -->
+                        <a onclick="navigate('view-custom')" class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h3>Custom 3D Prints</h3>
+                            <p>Bring your 3D models to life with precision printing. Click here to view our past customer prints and custom project details.</p>
+                        </a>
+                        
+                        <!-- Links to Custom Prints Page (Design info is there) -->
+                        <a onclick="navigate('view-custom')" class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-pencil-ruler"></i>
+                            </div>
+                            <h3>3D CAD Design</h3>
+                            <p>Don't have a 3D design ready? We offer custom 3D modeling and design services to bring your idea to life (additional charges apply).</p>
+                        </a>
+                        
+                        <!-- Links to Gift Catalog Page -->
+                        <a onclick="navigate('view-catalog')" class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <h3>Gift Catalog</h3>
+                            <p>Browse our catalog of customized gifts, figurines, and decorative items. Perfect for special occasions. Click here to browse.</p>
+                        </a>
+                    </div>
+                    
+                    <div class="process-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h4>Send Your File</h4>
+                            <p>Share your 3D model via WhatsApp</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h4>We Review</h4>
+                            <p>We check printability and quote</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h4>Print & Finish</h4>
+                            <p>High-quality printing and processing</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <h4>Delivery</h4>
+                            <p>Local pickup or delivery</p>
+                        </div>
                     </div>
                 </div>
+            </section>
+        </div>
 
-                <div class="action-card" onclick="showPage('catalog')">
-                    <!-- Upload a photo named gifts.jpg to your images folder -->
-                    <img src="images/gifts.jpg" alt="Gift Catalog" class="img-fallback" onerror="this.outerHTML='<div class=\\'img-fallback\\'>[ Upload images/gifts.jpg ]</div>'">
-                    <div class="card-content">
-                        <h3>Gift Catalog</h3>
-                        <p>Browse our ready-to-print toys, decor, and personal gifts.</p>
+
+        <!-- ========================================== -->
+        <!-- PAGE 2: CUSTOM PRINTS & PAST WORK          -->
+        <!-- ========================================== -->
+        <div id="view-custom" class="page-section">
+            <section style="padding-top: 3rem;">
+                <div class="container">
+                    <h2 class="section-title">Custom 3D Prints & Design</h2>
+                    
+                    <!-- Pricing and Design Notice -->
+                    <div class="pricing-note">
+                        <h3 style="color: #2d3748; margin-bottom: 0.8rem; font-size: 1.6rem;">Custom Print Pricing</h3>
+                        <p style="margin-bottom: 1rem; color: #4a5568; font-size: 1.1rem;">Because every custom project is unique, <strong>we do not have fixed prices for custom prints</strong>. The final cost depends entirely on the material type, model complexity, and total machine print time.</p>
+                        <p style="margin-bottom: 1.5rem; color: #4a5568; font-size: 1.1rem;">Please contact us via WhatsApp with your 3D file (.STL or .STEP) for an exact quote.</p>
+                        
+                        <div style="background-color: white; padding: 1.5rem; border-radius: 6px; border: 1px solid #bee3f8; margin-top: 1rem;">
+                            <p style="font-weight: 600; color: #2b6cb0; margin: 0; font-size: 1.1rem;">
+                                <i class="fas fa-pencil-ruler" style="margin-right: 8px;"></i> Don't have a 3D design ready?
+                            </p>
+                            <p style="color: #4a5568; margin-top: 0.5rem;">We offer full 3D CAD modeling and reverse-engineering services to bring your idea to life. (Additional design charges will apply based on the complexity of the model).</p>
+                        </div>
+
+                        <div style="margin-top: 2rem;">
+                            <a href="https://wa.me/919167268299?text=Hi%20LayerX,%20I%20have%20a%20custom%203D%20printing%20request" class="btn btn-whatsapp">
+                                <i class="fab fa-whatsapp"></i> Contact to Order Custom Print
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Past Prints Gallery (Below the Pricing Section as requested) -->
+                    <h3 style="color: #2d3748; font-size: 1.8rem; margin-bottom: 1.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Past Customer Prints</h3>
+                    <div class="gallery-grid" style="margin-bottom: 4rem;">
+                        
+                        <!-- Image 1 -->
+                        <div class="gallery-item">
+                            <!-- Change src to your actual image in the images folder -->
+                            <img src="images/print1.jpg" alt="Mechanical Part" onerror="this.outerHTML='[ Upload images/print1.jpg ]'">
+                            <div class="gallery-caption">Custom Mechanical Parts</div>
+                        </div>
+                        
+                        <!-- Image 2 -->
+                        <div class="gallery-item">
+                            <img src="images/print2.jpg" alt="Engineering Prototype" onerror="this.outerHTML='[ Upload images/print2.jpg ]'">
+                            <div class="gallery-caption">Engineering Prototypes</div>
+                        </div>
+
+                        <!-- Image 3 -->
+                        <div class="gallery-item">
+                            <img src="images/print3.jpg" alt="Replacement Gear" onerror="this.outerHTML='[ Upload images/print3.jpg ]'">
+                            <div class="gallery-caption">Appliance Replacement Gears</div>
+                        </div>
+
+                        <!-- Image 4 -->
+                        <div class="gallery-item">
+                            <img src="images/print4.jpg" alt="Electronics Enclosure" onerror="this.outerHTML='[ Upload images/print4.jpg ]'">
+                            <div class="gallery-caption">Custom Electronics Enclosures</div>
+                        </div>
+                        
+                        <!-- FUTURE IMAGES: Just copy and paste one of the <div class="gallery-item"> blocks above right here to add more past prints! -->
+                        
+                    </div>
+
+                    <!-- Materials Info -->
+                    <h3 style="color: #2d3748; font-size: 1.8rem; margin-bottom: 1.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Materials & Colors</h3>
+                    <div class="materials-grid">
+                        <div class="material-card">
+                            <div class="material-color pla-color"></div>
+                            <h3>PLA (Polylactic Acid)</h3>
+                            <p><strong>Best For:</strong> Decorative items, prototypes, low-stress applications</p>
+                            <div class="color-list">
+                                <span class="color-pill" style="border-left: 4px solid #dc2626;">Red</span>
+                                <span class="color-pill" style="border-left: 4px solid #000000;">Black</span>
+                                <span class="color-pill" style="border-left: 4px solid #4b5563;">Dark Grey</span>
+                                <span class="color-pill" style="border-left: 4px solid #cbd5e1;">Light Grey</span>
+                                <span class="color-pill" style="border-left: 4px solid #2563eb;">Blue</span>
+                                <span class="color-pill" style="border-left: 4px solid #ffffff;">White</span>
+                            </div>
+                        </div>
+                        
+                        <div class="material-card">
+                            <div class="material-color petg-color"></div>
+                            <h3>PETG (Polyethylene)</h3>
+                            <p><strong>Best For:</strong> Functional parts, mechanical components, durable use</p>
+                            <div class="color-list">
+                                <span class="color-pill" style="border-left: 4px solid #dc2626;">Red</span>
+                                <span class="color-pill" style="border-left: 4px solid #000000;">Black</span>
+                                <span class="color-pill" style="border-left: 4px solid #4b5563;">Dark Grey</span>
+                                <span class="color-pill" style="border-left: 4px solid #cbd5e1;">Light Grey</span>
+                                <span class="color-pill" style="border-left: 4px solid #2563eb;">Blue</span>
+                                <span class="color-pill" style="border-left: 4px solid #ffffff;">White</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- PAGE 3: GIFT CATALOG                       -->
+        <!-- ========================================== -->
+        <div id="view-catalog" class="page-section bg-gray-50">
+            <section style="padding-top: 3rem;">
+                <div class="container">
+                    <h2 class="section-title">Gift Catalog</h2>
+                    <p style="text-align: center; margin-bottom: 2rem; color: #4a5568;">Browse our collection of fixed-price personalized gifts and decorative items.</p>
+
+                    <!-- Sub-Category Filter Buttons -->
+                    <div class="catalog-filters">
+                        <button class="filter-btn active" onclick="filterCatalog('all')">All Items</button>
+                        <!-- FUTURE SUB-CATEGORIES: Copy a button below to add a new category filter -->
+                        <button class="filter-btn" onclick="filterCatalog('personal')">Personal Gifts</button>
+                        <button class="filter-btn" onclick="filterCatalog('toys')">Toys</button>
+                        <button class="filter-btn" onclick="filterCatalog('decorative')">Decorative</button>
+                    </div>
+
+                    <div class="catalog-grid" id="product-grid">
+                        
+                        <!-- Catalog Item 1 -->
+                        <!-- Notice data-category="personal" - this links it to the filter button above! -->
+                        <div class="catalog-card catalog-item" data-category="personal">
+                            <div class="catalog-img">[ Photo of Name Keychain ]</div>
+                            <div class="catalog-content">
+                                <h3 style="color: #2d3748; font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem;">Custom Name Keychain</h3>
+                                <p style="color: #4a5568; font-size: 0.9rem;">Durable two-color personalized keychain. Max 10 characters.</p>
+                                <div class="catalog-price">₹150</div>
+                                <a href="https://wa.me/919167268299?text=Hi%20LayerX,%20I%20want%20to%20order%20the%20Custom%20Name%20Keychain" class="btn btn-whatsapp" style="text-align: center; width: 100%;"><i class="fab fa-whatsapp"></i> Order Item</a>
+                            </div>
+                        </div>
+
+                        <!-- Catalog Item 2 -->
+                        <div class="catalog-card catalog-item" data-category="personal">
+                            <div class="catalog-img">[ Photo of Lithophane ]</div>
+                            <div class="catalog-content">
+                                <h3 style="color: #2d3748; font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem;">Photo Lithophane</h3>
+                                <p style="color: #4a5568; font-size: 0.9rem;">Send a photo, we print it as a translucent 3D panel.</p>
+                                <div class="catalog-price">₹600</div>
+                                <a href="https://wa.me/919167268299?text=Hi%20LayerX,%20I%20want%20to%20order%20the%20Photo%20Lithophane" class="btn btn-whatsapp" style="text-align: center; width: 100%;"><i class="fab fa-whatsapp"></i> Order Item</a>
+                            </div>
+                        </div>
+
+                        <!-- Catalog Item 3 -->
+                        <div class="catalog-card catalog-item" data-category="decorative">
+                            <div class="catalog-img">[ Photo of Pen Holder ]</div>
+                            <div class="catalog-content">
+                                <h3 style="color: #2d3748; font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem;">Geometric Pen Holder</h3>
+                                <p style="color: #4a5568; font-size: 0.9rem;">Low-poly modern desktop organizer.</p>
+                                <div class="catalog-price">₹350</div>
+                                <a href="https://wa.me/919167268299?text=Hi%20LayerX,%20I%20want%20to%20order%20the%20Geometric%20Pen%20Holder" class="btn btn-whatsapp" style="text-align: center; width: 100%;"><i class="fab fa-whatsapp"></i> Order Item</a>
+                            </div>
+                        </div>
+
+                        <!-- Catalog Item 4 -->
+                        <div class="catalog-card catalog-item" data-category="decorative">
+                            <div class="catalog-img">[ Photo of Planter ]</div>
+                            <div class="catalog-content">
+                                <h3 style="color: #2d3748; font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem;">Succulent Planter Box</h3>
+                                <p style="color: #4a5568; font-size: 0.9rem;">Small indoor planter with drainage holes.</p>
+                                <div class="catalog-price">₹400</div>
+                                <a href="https://wa.me/919167268299?text=Hi%20LayerX,%20I%20want%20to%20order%20the%20Succulent%20Planter" class="btn btn-whatsapp" style="text-align: center; width: 100%;"><i class="fab fa-whatsapp"></i> Order Item</a>
+                            </div>
+                        </div>
+
+                        <!-- Catalog Item 5 -->
+                        <div class="catalog-card catalog-item" data-category="toys">
+                            <div class="catalog-img">[ Photo of Dragon ]</div>
+                            <div class="catalog-content">
+                                <h3 style="color: #2d3748; font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem;">Articulated Flexi-Dragon</h3>
+                                <p style="color: #4a5568; font-size: 0.9rem;">Fully movable printed toy. Multiple colors available.</p>
+                                <div class="catalog-price">₹800</div>
+                                <a href="https://wa.me/919167268299?text=Hi%20LayerX,%20I%20want%20to%20order%20the%20Articulated%20Dragon" class="btn btn-whatsapp" style="text-align: center; width: 100%;"><i class="fab fa-whatsapp"></i> Order Item</a>
+                            </div>
+                        </div>
+
+                        <!-- FUTURE CATALOG ITEMS: Copy a block above and paste it right here to add more products! Ensure data-category matches your filter buttons. -->
+
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Global Contact Info (Always visible at bottom before footer) -->
+    <section id="contact" style="padding-bottom: 2rem;">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3 style="margin-bottom: 1.5rem; color: #2d3748;">Get in Touch</h3>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <h4>Service Areas</h4>
+                            <p>Govandi, Dombivli, Panvel, and all Harbour Line Stations near Govandi.</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                        <div>
+                            <h4>Phone / WhatsApp</h4>
+                            <p><a href="tel:+919167268299" class="contact-link">+91 91672 68299</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4>Email</h4>
+                            <p><a href="mailto:acc.thecraftedstone@gmail.com" class="contact-link">acc.thecraftedstone@gmail.com</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fab fa-instagram"></i></div>
+                        <div>
+                            <h4>Instagram</h4>
+                            <p><a href="https://instagram.com/_layerx_" target="_blank" class="contact-link">@_layerx_</a></p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- PAGE 2: CUSTOM PRINTS -->
-        <div id="custom" class="page-section">
-            <h1 class="section-title">Custom 3D Printing & Design</h1>
-            
-            <div class="spec-box">
-                <h3>Our Materials & Colors</h3>
-                <p><strong>PLA:</strong> Great for prototypes, visual models, and decorative items.</p>
-                <p><strong>PETG:</strong> High strength, durable, and temperature resistant for functional parts.</p>
-                <br>
-                <p><strong>Available Colors:</strong></p>
-                <div class="swatch-container">
-                    <div class="swatch" style="background-color: #dc2626;" title="Red"></div>
-                    <div class="swatch" style="background-color: #000000;" title="Black"></div>
-                    <div class="swatch" style="background-color: #4b5563;" title="Dark Grey"></div>
-                    <div class="swatch" style="background-color: #cbd5e1;" title="Light Grey"></div>
-                    <div class="swatch" style="background-color: #2563eb;" title="Blue"></div>
-                    <div class="swatch" style="background-color: #ffffff;" title="White"></div>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">LayerX</div>
+                    <p>Professional 3D printing services for custom projects, prototypes, and gift items. Serving Govandi, Dombivli, Panvel, and Harbour Line Stations.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a onclick="navigate('view-home')" style="cursor: pointer;">Home</a></li>
+                        <li><a onclick="navigate('view-custom')" style="cursor: pointer;">Custom Prints</a></li>
+                        <li><a onclick="navigate('view-catalog')" style="cursor: pointer;">Gift Catalog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Connect With Us</h4>
+                    <ul>
+                        <li><a href="https://wa.me/919167268299" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                        <li><a href="https://instagram.com/_layerx_" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="mailto:acc.thecraftedstone@gmail.com"><i class="fas fa-envelope"></i> Email</a></li>
+                    </ul>
                 </div>
             </div>
-
-            <div class="spec-box">
-                <h3>Design Services</h3>
-                <p>Have an idea but no 3D file? We provide custom 3D modeling services to bring your concept into the real world.</p>
-            </div>
-
-            <a href="https://wa.me/919167268299" class="btn-primary" style="margin-bottom: 30px;">Send Files & Get Quote on WhatsApp</a>
-
-            <h3>Past Customer Projects</h3>
-            <div class="gallery-grid">
-                <!-- Upload photos named print1.jpg, print2.jpg, etc. to your images folder -->
-                <img src="images/print1.jpg" class="gallery-img" alt="Project 1" onerror="this.outerHTML='<div class=\\'gallery-img img-fallback\\'>[ Upload print1.jpg ]</div>'">
-                <img src="images/print2.jpg" class="gallery-img" alt="Project 2" onerror="this.outerHTML='<div class=\\'gallery-img img-fallback\\'>[ Upload print2.jpg ]</div>'">
-                <img src="images/print3.jpg" class="gallery-img" alt="Project 3" onerror="this.outerHTML='<div class=\\'gallery-img img-fallback\\'>[ Upload print3.jpg ]</div>'">
-                <img src="images/print4.jpg" class="gallery-img" alt="Project 4" onerror="this.outerHTML='<div class=\\'gallery-img img-fallback\\'>[ Upload print4.jpg ]</div>'">
-            </div>
-        </div>
-
-        <!-- PAGE 3: CATALOG -->
-        <div id="catalog" class="page-section">
-            <h1 class="section-title">Gift & Product Catalog</h1>
             
-            <div class="catalog-nav">
-                <button class="cat-btn active" onclick="filterCatalog('all')">All Items</button>
-                <button class="cat-btn" onclick="filterCatalog('personal')">Personal Gifts</button>
-                <button class="cat-btn" onclick="filterCatalog('decorative')">Decorative</button>
-                <button class="cat-btn" onclick="filterCatalog('toys')">Toys & Props</button>
+            <div class="copyright">
+                <p>&copy; 2026 LayerX 3D Printing Services. All rights reserved.</p>
             </div>
-
-            <div class="product-grid" id="json-product-grid">
-                <p>Loading catalog...</p>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- GLOBAL FOOTER -->
-    <footer class="site-footer">
-        <div class="footer-icons">
-            <a href="mailto:acc.thecraftedstone@gmail.com"><i class="fa-solid fa-envelope"></i></a>
-            <a href="https://instagram.com/_layerx_"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://wa.me/919167268299"><i class="fa-brands fa-whatsapp"></i></a>
-            <a href="tel:+919167268299"><i class="fa-solid fa-phone"></i></a>
-        </div>
-        <div class="footer-details">
-            <p>Email: <span>acc.thecraftedstone@gmail.com</span></p>
-            <p>Insta: <span>_layerx_</span></p>
-            <p>Phone/WA: <span>+91 9167268299</span></p>
         </div>
     </footer>
 
-    <!-- NAVIGATION AND JSON AUTOMATION SCRIPT -->
+    <!-- JavaScript for Multi-Page Navigation and Category Filtering -->
     <script>
-        function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-        }
-
-        let catalogData = [];
-
-        window.onload = function() {
-            fetch('catalog.json')
-                .then(response => response.json())
-                .then(data => {
-                    catalogData = data.sort((a, b) => a.sequence - b.sequence);
-                    renderCatalog('all'); 
-                })
-                .catch(error => {
-                    document.getElementById('json-product-grid').innerHTML = '<p>No items found in this category.</p>';
-                    console.error("Error fetching catalog:", error);
-                });
-        };
-
-        function renderCatalog(category) {
-            const grid = document.getElementById('json-product-grid');
-            grid.innerHTML = ''; 
-
-            const filteredData = category === 'all' 
-                ? catalogData 
-                : catalogData.filter(item => item.category === category);
-
-            if(filteredData.length === 0) {
-                grid.innerHTML = '<p>No items found in this category.</p>';
-                return;
-            }
-
-            filteredData.forEach(item => {
-                const card = `
-                    <div class="product-card">
-                        <img src="${item.image}" alt="${item.title}" onerror="this.onerror=null; this.src=''; this.parentElement.insertAdjacentHTML('afterbegin', '<div class=\\'product-img\\'>[ Photo: ${item.title} ]</div>'); this.remove();">
-                        <h3>${item.title}</h3>
-                        <p class="price">${item.price}</p>
-                        <p style="font-size: 14px; margin-bottom: 15px;">${item.description}</p>
-                        <a href="https://wa.me/919167268299?text=Hi, I would like to order the ${item.title} (${item.price})" class="btn-primary">Order via WA</a>
-                    </div>
-                `;
-                grid.innerHTML += card;
+        // Multi-Page Navigation Logic
+        function navigate(viewId) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(el => {
+                el.classList.remove('active');
             });
+            // Show target page
+            document.getElementById(viewId).classList.add('active');
+            
+            // Update active state in header nav
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Add active class to corresponding nav link if it exists
+            const navBtn = document.getElementById('nav-' + viewId);
+            if(navBtn) navBtn.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // Catalog Sub-Category Filter Logic
         function filterCatalog(category) {
-            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            renderCatalog(category);
+            // Update button styling
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show/Hide items based on data-category
+            const items = document.querySelectorAll('.catalog-item');
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
         }
     </script>
 </body>
